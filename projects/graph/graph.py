@@ -75,12 +75,26 @@ class Graph:
         pass  # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
+        q = Queue()
+        q.enqueue([starting_vertex])
+        visited = set()
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+            if v not in visited:
+                visited.add(v)
+                if v == destination_vertex:
+                    return path
+                for next_v in self.get_neighbors(v):
+                    q.enqueue(path + [next_v])
+
+
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # TODO
 
     def dfs(self, starting_vertex, destination_vertex):
         """
