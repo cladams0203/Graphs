@@ -112,22 +112,54 @@ class Graph:
         # TODO
 
     def dfs(self, starting_vertex, destination_vertex):
+        s = Stack()
+        s.push([starting_vertex])
+        visited = set()
+        while s.size() > 0:
+            path = s.pop()
+            v = path[-1]
+            if v not in visited:
+                visited.add(v)
+                if v == destination_vertex:
+                    return path
+                for next_v in self.get_neighbors(v):
+                    s.push(path + [next_v])
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # TODO
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
+        stack = Stack()
+        visited = set()
+        stack.push([starting_vertex])
 
-        This should be done using recursion.
-        """
-        pass  # TODO
+        def dft_inner(current_path):
+            current_vertex = current_path.pop()
+            current_path.append(current_vertex)
+            if current_vertex == destination_vertex:
+                return current_path
+            else:
+                if current_vertex not in visited:
+                    visited.add(current_vertex)
+                    for neighbor in self.get_neighbors(current_vertex):
+                        path_to_add = current_path + [neighbor]
+                        stack.push(path_to_add)
+                    return dft_inner(stack.pop())
+                else:
+                    return dft_inner(stack.pop())
+
+        return dft_inner([starting_vertex])
+"""
+Return a list containing a path from
+starting_vertex to destination_vertex in
+depth-first order.
+
+This should be done using recursion.
+"""
+# TODO
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
