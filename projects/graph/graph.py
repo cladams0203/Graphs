@@ -49,11 +49,21 @@ class Graph:
         # TODO
 
     def dft(self, starting_vertex):
+        s = Stack()
+        visited = set()
+        s.push(starting_vertex)
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for next_v in self.get_neighbors(v):
+                    s.push(next_v)
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
 
     def dft_recursive(self, starting_vertex):
         """
