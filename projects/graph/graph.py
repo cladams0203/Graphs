@@ -10,29 +10,43 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
+        self.vertices[vertex_id] = set()
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # TODO
 
     def add_edge(self, v1, v2):
+        self.vertices[v1].add(v2)
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # TODO
 
     def get_neighbors(self, vertex_id):
+        return self.vertices[vertex_id]
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # TODO
 
     def bft(self, starting_vertex):
+        q = Queue()
+        visited = set()
+        q.enqueue(starting_vertex)
+
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for next_v in self.get_neighbors(v):
+                    q.enqueue(next_v)
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
 
     def dft(self, starting_vertex):
         """
