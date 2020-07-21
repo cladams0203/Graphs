@@ -66,13 +66,28 @@ class Graph:
         # TODO
 
     def dft_recursive(self, starting_vertex):
+        s = Stack()
+        visited = set()
+        def inner_dft(current):
+            if current == None:
+                return
+            else:
+                if current not in visited:
+                    print(current)
+                    visited.add(current)
+                    for next_v in self.get_neighbors(current):
+                        s.push(next_v)
+                    inner_dft(s.pop())
+                else:
+                    inner_dft(s.pop())
+        inner_dft(starting_vertex)
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
         q = Queue()
