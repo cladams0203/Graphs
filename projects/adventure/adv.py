@@ -38,10 +38,10 @@ visited_rooms.add(player.current_room)
 
 
 opposites = {'n':'s', 's':'n', 'e':'w', 'w':'e'}
-print(player.current_room)
 traversal_graph = {}
 def traverse_graph():
-    traversal_graph[player.current_room.id] ={}
+    moves = []
+    traversal_graph[player.current_room.id] = {}
     for cur_direction in player.current_room.get_exits():
         prev = player.current_room.id
         player.travel(cur_direction)
@@ -50,41 +50,16 @@ def traverse_graph():
             player.travel(opposites[cur_direction])
         else:
             visited_rooms.add(player.current_room)
-            # moves.append(cur_direction)
-            # copy the current path with current move
-            traverse_graph()
+            moves.append(cur_direction)
+            moves.extend(traverse_graph())
             player.travel(opposites[cur_direction])
-            # moves.append(opposites[cur_direction])
+            moves.append(opposites[cur_direction])
+    return moves
 
 
+traversal_path = traverse_graph()
 
 
-traverse_graph()
-print(traversal_graph)
-
-## ------ first attempt 998 moves --------
-# opposites = {'n':'s', 's':'n', 'e':'w', 'w':'e'}
-#
-# def recursive_traverse():
-#     moves = []
-#     for cur_direction in player.current_room.get_exits():
-#         player.travel(cur_direction)
-#         if player.current_room in visited_rooms:
-#             player.travel(opposites[cur_direction])
-#         else:
-#             visited_rooms.add(player.current_room)
-#             moves.append(cur_direction)
-#             # copy the current path with current move
-#             moves.extend(recursive_traverse())
-#             player.travel(opposites[cur_direction])
-#             moves.append(opposites[cur_direction])
-#     return moves
-#
-# traversal_path = recursive_traverse()
-#
-# for move in traversal_path:
-#     player.travel(move)
-#     visited_rooms.add(player.current_room)
 
 
 
