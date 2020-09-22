@@ -1,3 +1,5 @@
+from random import randint
+from collections import deque
 class User:
     def __init__(self, name):
         self.name = name
@@ -45,8 +47,19 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(num_users):
+            self.add_user(f"User: {i}")
 
         # Create friendships
+        total = num_users * avg_friendships
+
+        added = 0
+        while added < total:
+            id1 = randint(1, self.last_id)
+            id2 = randint(1, self.last_id)
+            if id1 != id2 and id2 not in self.friendships[id1]:
+                self.add_friendship(id1, id2)
+                added += 2
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,6 +72,40 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+
+        path_queue = deque()
+
+        path_queue.append([user_id])
+
+        while len(path_queue) > 0:
+            path = path_queue.popleft()
+            friend_id = path[-1]
+
+            if friend_id in visited:
+                continue
+
+            visited[friend_id] = path
+
+            # Enqueue friends
+            for id in self.friendships[friend_id]:
+                new_path = path.copy()
+                new_path.append(id)
+                path_queue.append(new_path)
+
+        friend_coverage = (len(visited) - 1) / (len(self.users) - 1)
+        print(f"Percentage of users that are in extended network: {friend_coverage * 100: 0.1f}%")
+
+        # Figure average of path lengths to get average degrees of separation (subtract one to not count user)
+        total_length = 0
+        for path in visited.values():
+            total_length += len(path) - 1
+
+        if len(visited) > 1:
+            avg_separation = total_length / (len(visited) - 1)
+            print(f"Average degree of separation: {avg_separation}")
+        else:
+            print("No friends")
+
         return visited
 
 

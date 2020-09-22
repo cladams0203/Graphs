@@ -30,7 +30,7 @@ def earliest_ancestor(ancestors, starting_node):
                     neighbor.append(j[0])
                     q.enqueue(neighbor)
         if len(neighbor) <= 0:
-            if  cur[0] == starting_node:
+            if cur[0] == starting_node:
                 return -1
             else:
                 return cur[0]
