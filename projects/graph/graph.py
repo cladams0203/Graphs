@@ -10,71 +10,158 @@ class Graph:
         self.vertices = {}
 
     def add_vertex(self, vertex_id):
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] = set()
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # TODO
 
     def add_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # TODO
 
     def get_neighbors(self, vertex_id):
+        return self.vertices[vertex_id]
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # TODO
 
     def bft(self, starting_vertex):
+        q = Queue()
+        visited = set()
+        q.enqueue(starting_vertex)
+
+        while q.size() > 0:
+            v = q.dequeue()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for next_v in self.get_neighbors(v):
+                    q.enqueue(next_v)
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
 
     def dft(self, starting_vertex):
+        s = Stack()
+        visited = set()
+        s.push(starting_vertex)
+        while s.size() > 0:
+            v = s.pop()
+            if v not in visited:
+                visited.add(v)
+                print(v)
+                for next_v in self.get_neighbors(v):
+                    s.push(next_v)
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
 
     def dft_recursive(self, starting_vertex):
+        s = Stack()
+        visited = set()
+        def inner_dft(current):
+            if current == None:
+                return
+            else:
+                if current not in visited:
+                    print(current)
+                    visited.add(current)
+                    for next_v in self.get_neighbors(current):
+                        s.push(next_v)
+                    inner_dft(s.pop())
+                else:
+                    inner_dft(s.pop())
+        inner_dft(starting_vertex)
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
+        q = Queue()
+        q.enqueue([starting_vertex])
+        visited = set()
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+            if v not in visited:
+                visited.add(v)
+                if v == destination_vertex:
+                    return path
+                for next_v in self.get_neighbors(v):
+                    q.enqueue(path + [next_v])
+
+
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # TODO
 
     def dfs(self, starting_vertex, destination_vertex):
+        s = Stack()
+        s.push([starting_vertex])
+        visited = set()
+        while s.size() > 0:
+            path = s.pop()
+            v = path[-1]
+            if v not in visited:
+                visited.add(v)
+                if v == destination_vertex:
+                    return path
+                for next_v in self.get_neighbors(v):
+                    s.push(path + [next_v])
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # TODO
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
+        stack = Stack()
+        visited = set()
+        stack.push([starting_vertex])
 
-        This should be done using recursion.
-        """
-        pass  # TODO
+        def dft_inner(current_path):
+            current_vertex = current_path.pop()
+            current_path.append(current_vertex)
+            if current_vertex == destination_vertex:
+                return current_path
+            else:
+                if current_vertex not in visited:
+                    visited.add(current_vertex)
+                    for neighbor in self.get_neighbors(current_vertex):
+                        path_to_add = current_path + [neighbor]
+                        stack.push(path_to_add)
+                    return dft_inner(stack.pop())
+                else:
+                    return dft_inner(stack.pop())
+
+        return dft_inner([starting_vertex])
+"""
+Return a list containing a path from
+starting_vertex to destination_vertex in
+depth-first order.
+
+This should be done using recursion.
+"""
+# TODO
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
